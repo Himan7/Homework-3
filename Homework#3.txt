@@ -1,0 +1,79 @@
+Explain what is prototype and what is prototype chain in your own words.
+
+Prototype is an object that other objects inherit properties and methods.
+A prototype chain is a series of linked objects where each object has a prototype and that prototype is linked to another prototype. The chain allows an object to inherit properties and methods from multiple levels up the hierarchy.
+
+Implement your versions of the following Array methods (choose 6).
+map, filter, reduce, every, find, includes, join, pop, push, reverse, slice, sort
+
+Reduce
+Array.prototype.myReduce = function(cb, initialValue) {
+    let accumulator = initialValue === undefined ? this[0] : initialValue;
+    let startIndex = initialValue === undefined ? 1 : 0;
+    for (let i = startIndex; i < this.length; i++) {
+        if (this.hasOwnProperty(i)) {
+            accumulator = cb(accumulator, this[i], i, this);
+        }
+    }
+    return accumulator;
+};
+
+Find
+Array.prototype.myFind = function(cb) {
+    for (let i = 0; i < this.length; i++) {
+        if (this.hasOwnProperty(i) && cb(this[i], i, this)) {
+            return this[i];
+        }
+    }
+    return undefined;
+};
+
+Join
+Array.prototype.myJoin = function(separator = ',') {
+    let result = '';
+    for (let i = 0; i < this.length; i++) {
+        if (this.hasOwnProperty(i)) {
+            result += this[i];
+            if (i < this.length - 1) {
+                result += separator;
+            }
+        }
+    }
+    return result;
+};
+
+Reverse
+Array.prototype.myReverse = function() {
+    let left = 0;
+    let right = this.length - 1;
+    while (left < right) {
+        [this[left], this[right]] = [this[right], this[left]];
+        left++;
+        right--;
+    }
+    return this;
+};
+
+Sort
+Array.prototype.mySort = function(cf){
+    for (let i = 0; i < this.length - 1; i++){
+        for(let j = 0; j < this.length - 1 - i; j++){
+            if (cf ? cf(this[j], this[j+1]) > 0 : this[j]> this[j+1]){
+                [this[j], this[j + 1]] = [this[j+1], this[j]];
+            }
+        }
+    }
+}
+
+
+
+Filter
+Array.prototype.myFilter = function(cb){
+	const result = [];
+	for (let i = 0; i < this.length; i++){
+		if (this.hasOwnProperty(i) && cb(this[i], i, this)){
+			result.push(this[i]);
+		}
+	}
+	return result;
+};
